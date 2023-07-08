@@ -44,7 +44,7 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-uint8_t spwm[2000];
+uint8_t spwm[21000];
 uint32_t freq = 50;
 double pointNum = 399;
 uint16_t Counter_sine1 = 0;	
@@ -115,7 +115,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-    
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -188,7 +188,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 20;
+  htim1.Init.Prescaler = 3;
   htim1.Init.CounterMode = TIM_COUNTERMODE_CENTERALIGNED1;
   htim1.Init.Period = 199;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -269,7 +269,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 20;
+  htim2.Init.Prescaler = 3;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 199;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -320,7 +320,11 @@ void changeSpwm(void)
   const double pi = acos(-1.0);
   double x,r;
   double s;
-  
+  pointNum = 105000 / freq;
+  Counter_sine1 = 0;
+  Counter_sine2 = pointNum/3;
+  Counter_sine3 = pointNum*2/3;
+
   if (freq > 0)
   {
     for (uint16_t i = 0; i < pointNum; i++)
@@ -332,10 +336,7 @@ void changeSpwm(void)
       spwm[i] = s;
     } 
   }
-  pointNum = 20000 / freq;
-  Counter_sine1 = 0;
-  Counter_sine2 = pointNum/3;
-  Counter_sine3 = pointNum*2/3;
+  
 }
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
